@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        .message { color: green; margin: 10px 0; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <!-- Сообщение об ошибке -->
+    <div id="error" class="error"></div>
+
+    <form action="/login" method="post" id="loginForm">
+        <label for="username">Email:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const errorDiv = document.getElementById("error");
+
+            try {
+                const response = await fetch("/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({ // Преобразуем данные в форму
+                        username: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json(); // Получаем JSON-ответ
+
+                if (response.ok) {
+                    // Успешная авторизация
+                    localStorage.setItem("access_token", data.access_token); // Сохраняем токен
+                    window.location.href = "/protected"; // Перенаправляем
+                } else {
+                    // Ошибка авторизации
+                    errorDiv.textContent = data.detail || "Неверный email или пароль"; // Отображаем ошибку
+                }
+            } catch (error) {
+                // Ошибка сети или обработки запроса
+                errorDiv.textContent = "Ошибка сети или обработки запроса";
+                console.error("Error:", error);
+            }
+        });
+    </script>
+</body>
+</html>
