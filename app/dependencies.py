@@ -1,10 +1,9 @@
-from fastapi import Depends, HTTPException, Request
+from typing import Annotated
+from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
-from typing import Annotated
 from starlette import status
-
 from app.crud.user import user_crud
 from app.models import User
 from app.services.config import settings
@@ -40,6 +39,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     if user is None:
         raise credentials_exception
     return user
+
 
 async def get_current_admin(
         current_user: User = Depends(get_current_user)

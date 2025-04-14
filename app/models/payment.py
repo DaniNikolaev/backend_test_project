@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, DECIMAL, String, ForeignKey
 from sqlalchemy.orm import relationship
-from app.models.base import Base
+from app.models.base import Base  # Импортируем из нового файла
 
 
 class Payment(Base):
@@ -21,4 +21,3 @@ class Payment(Base):
 
     # Связь многие-к-одному с User
     user = relationship("User", back_populates="payments")
-

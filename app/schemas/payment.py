@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field, UUID4
 from datetime import datetime
+from pydantic import BaseModel, Field, UUID4
+
 
 class PaymentBase(BaseModel):
     amount: float = Field(..., gt=0, description="Сумма платежа", example=150.75)
@@ -7,8 +8,10 @@ class PaymentBase(BaseModel):
     account_id: int = Field(..., description="ID счета")
     user_id: int = Field(..., description="ID пользователя")
 
+
 class PaymentCreate(PaymentBase):
     signature: str = Field(..., description="Подпись транзакции")
+
 
 class PaymentInDB(PaymentBase):
     id: int

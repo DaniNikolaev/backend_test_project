@@ -1,22 +1,25 @@
-from passlib.context import CryptContext
-from typing import Union, Any
 from datetime import timedelta, datetime
+from typing import Union, Any
+from passlib.context import CryptContext
 from jose import jwt
 from app.services.config import settings  # Импортируем настройки
 
 # Настройки безопасности
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 # Функция для проверки пароля
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return password_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(password: str) -> str:
     return password_context.hash(password)
 
+
 # Функция для создания JWT токена
 def create_access_token(
-        subject: Union[str, Any], expires_delta: timedelta = None, **kwargs  #  Принимаем дополнительные аргументы для payload
+        subject: Union[str, Any], expires_delta: timedelta = None, **kwargs
 ) -> str:
     if expires_delta:
         expire = datetime.utcnow() + expires_delta

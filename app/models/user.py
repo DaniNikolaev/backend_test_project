@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
-from app.models.base import Base
-from app.models import account
+from app.models.base import Base  # Импортируем из нового файла
+
 
 class User(Base):
     __tablename__ = "users"
@@ -18,4 +18,3 @@ class User(Base):
 
     # Связь один-ко-многим с Payment
     payments = relationship("Payment", back_populates="user")
-

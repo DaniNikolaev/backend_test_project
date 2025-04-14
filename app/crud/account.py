@@ -1,8 +1,8 @@
 from typing import Any, Sequence, Type
-
 from sqlalchemy.orm import Session
 from sqlalchemy import select, Row, RowMapping
 from app.models.account import Account
+
 
 class AccountCRUD:
     def create_for_user(self, db: Session, user_id: int) -> Account:
@@ -32,5 +32,6 @@ class AccountCRUD:
         db.commit()
         db.refresh(account)
         return account
+
 
 account_crud = AccountCRUD()

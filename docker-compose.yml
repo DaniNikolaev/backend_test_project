@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:123@db:5432/backend_test_project
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=backend_test_project
+      - POSTGRES_PASSWORD=123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

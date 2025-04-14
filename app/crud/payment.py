@@ -1,6 +1,7 @@
+from typing import Any, Sequence
 from uuid import UUID
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, Row, RowMapping
 from app.models.payment import Payment
 from app.models.account import Account
 from app.schemas import PaymentCreate
@@ -42,7 +43,7 @@ class PaymentCRUD:
         self,
         db: Session,
         user_id: int
-    ) -> list[Payment]:
+    ) -> Sequence[Row | RowMapping | Any]:
         """Получает платежи пользователя (для /users/me/payments)"""
         result = db.execute(select(Payment).filter(Payment.user_id == user_id))
         return result.scalars().all()
@@ -84,5 +85,6 @@ class PaymentCRUD:
         db.commit()
 
         return new_payment
+
 
 payment_crud = PaymentCRUD()

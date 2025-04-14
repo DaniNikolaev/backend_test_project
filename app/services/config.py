@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     DB_ECHO: bool = False  # Логирование SQL запросов
     DB_POOL_SIZE: int = 5  # Размер пула подключений
     DB_MAX_OVERFLOW: int = 10  # Максимальное превышение размера пула
+    RESET_DB_ON_STARTUP: bool = False
 
     # Настройки аутентификации (если нужны)
     SECRET_KEY: str = "your-secret-key"
